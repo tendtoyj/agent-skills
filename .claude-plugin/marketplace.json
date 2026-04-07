@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "agentfiles",
   "owner": {
     "name": "Yoojung Kim"
@@ -10,7 +11,7 @@
   "plugins": [
     {
       "name": "vibe-mkt",
-      "source": "plugins/vibe-mkt",
+      "source": "./plugins/vibe-mkt",
       "description": "10 marketing skills for brand voice, positioning, copywriting, SEO, email, newsletters, and more. Diagnose your marketing gaps and generate production-ready content.",
       "version": "1.0.0",
       "author": {
@@ -21,7 +22,7 @@
     },
     {
       "name": "mkt-study",
-      "source": "plugins/mkt-study",
+      "source": "./plugins/mkt-study",
       "description": "9 research skills for market scanning, competitive intelligence, customer profiling, voice-of-customer mining, and strategic synthesis. Build a complete research foundation before marketing execution.",
       "version": "1.0.0",
       "author": {
@@ -32,7 +33,7 @@
     },
     {
       "name": "creative-mkt",
-      "source": "plugins/creative-mkt",
+      "source": "./plugins/creative-mkt",
       "description": "7 atomic creative skills for brand visual identity, storytelling frameworks, trend-powered content creation, and AI visual design. Each skill does one thing well with one tool.",
       "version": "2.0.0",
       "author": {
@@ -43,7 +44,7 @@
     },
     {
       "name": "card-news",
-      "source": "plugins/card-news",
+      "source": "./plugins/card-news",
       "description": "6 skills for Instagram card-news production: orchestrator, copy-writer, copy-evaluator, contents-manager, image-generator, and card-news-maker. Automates the full pipeline from copywriting to final 1080x1350 PNG rendering.",
       "version": "1.0.0",
       "author": {
@@ -54,7 +55,7 @@
     },
     {
       "name": "storyteller",
-      "source": "plugins/storyteller",
+      "source": "./plugins/storyteller",
       "description": "3 skills for long-form storytelling card-news production: planner, image-maker, and renderer. Transforms newsletters and articles into 11-16 card sets with cinematic or conceptual imagery, rendered as 1080x1350 PNG via Playwright.",
       "version": "1.0.0",
       "author": {
@@ -65,7 +66,7 @@
     },
     {
       "name": "cc-skills",
-      "source": "plugins/cc-skills",
+      "source": "./plugins/cc-skills",
       "description": "12 development workflow skills for branch management, code review, implementation planning, task estimation, and project management with Linear integration.",
       "version": "1.0.0",
       "author": {
@@ -76,7 +77,7 @@
     },
     {
       "name": "ux-skills",
-      "source": "plugins/ux-skills",
+      "source": "./plugins/ux-skills",
       "description": "9 UX research and design skills: brainstorming, persona creation, user flow generation, screen planning, interview design, survey building, and user research planning — orchestrated through a context-aware routing system.",
       "version": "2.0.0",
       "author": {
@@ -87,7 +88,7 @@
     },
     {
       "name": "vibe-coding",
-      "source": "plugins/vibe-coding",
+      "source": "./plugins/vibe-coding",
       "description": "7 skills for translating ideas into production-ready frontend code. From project discovery to design systems to coding agent prompts.",
       "version": "1.0.0",
       "author": {
@@ -98,7 +99,7 @@
     },
     {
       "name": "office-work",
-      "source": "plugins/office-work",
+      "source": "./plugins/office-work",
       "description": "3 skills for business document and presentation production. Includes meeting summary, PPT storyline creation, and report summarization.",
       "version": "1.0.0",
       "author": {
