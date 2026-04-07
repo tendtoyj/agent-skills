@@ -73,6 +73,39 @@
       },
       "keywords": ["development", "workflow", "code-review", "planning", "linear", "git", "project-management", "task-estimation"],
       "category": "development"
+    },
+    {
+      "name": "ux-skills",
+      "source": "plugins/ux-skills",
+      "description": "9 UX research and design skills: brainstorming, persona creation, user flow generation, screen planning, interview design, survey building, and user research planning — orchestrated through a context-aware routing system.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["ux", "user-research", "persona", "interview", "survey", "userflow", "screen-planning"],
+      "category": "ux-design"
+    },
+    {
+      "name": "vibe-coding",
+      "source": "plugins/vibe-coding",
+      "description": "7 skills for translating ideas into production-ready frontend code. From project discovery to design systems to coding agent prompts.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["frontend", "design-system", "coding-agent", "prompt-generation", "ux-to-code", "mvp"],
+      "category": "development"
+    },
+    {
+      "name": "office-work",
+      "source": "plugins/office-work",
+      "description": "3 skills for business document and presentation production. Includes meeting summary, PPT storyline creation, and report summarization.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["ppt", "presentation", "report", "meeting-summary", "business-document"],
+      "category": "productivity"
     }
   ]
 }
