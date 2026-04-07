@@ -1,0 +1,78 @@
+{
+  "name": "agentfiles",
+  "owner": {
+    "name": "Yoojung Kim"
+  },
+  "metadata": {
+    "description": "Claude Code skill plugins by Yoojung Kim — marketing research, creative production, and content automation.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "vibe-mkt",
+      "source": "plugins/vibe-mkt",
+      "description": "10 marketing skills for brand voice, positioning, copywriting, SEO, email, newsletters, and more. Diagnose your marketing gaps and generate production-ready content.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["marketing", "copywriting", "seo", "brand-voice", "email-marketing", "content-strategy"],
+      "category": "marketing"
+    },
+    {
+      "name": "mkt-study",
+      "source": "plugins/mkt-study",
+      "description": "9 research skills for market scanning, competitive intelligence, customer profiling, voice-of-customer mining, and strategic synthesis. Build a complete research foundation before marketing execution.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["research", "competitive-analysis", "customer-insight", "market-research", "strategy"],
+      "category": "research"
+    },
+    {
+      "name": "creative-mkt",
+      "source": "plugins/creative-mkt",
+      "description": "7 atomic creative skills for brand visual identity, storytelling frameworks, trend-powered content creation, and AI visual design. Each skill does one thing well with one tool.",
+      "version": "2.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["creative", "social-media", "visual-design", "storytelling", "image-generation", "brand-guidelines", "content-creation"],
+      "category": "creative"
+    },
+    {
+      "name": "card-news",
+      "source": "plugins/card-news",
+      "description": "6 skills for Instagram card-news production: orchestrator, copy-writer, copy-evaluator, contents-manager, image-generator, and card-news-maker. Automates the full pipeline from copywriting to final 1080x1350 PNG rendering.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["card-news", "instagram", "social-media", "copywriting", "image-generation", "playwright", "content-production"],
+      "category": "content-production"
+    },
+    {
+      "name": "storyteller",
+      "source": "plugins/storyteller",
+      "description": "3 skills for long-form storytelling card-news production: planner, image-maker, and renderer. Transforms newsletters and articles into 11-16 card sets with cinematic or conceptual imagery, rendered as 1080x1350 PNG via Playwright.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["storyteller", "card-news", "instagram", "long-form", "image-generation", "playwright", "content-production"],
+      "category": "content-production"
+    },
+    {
+      "name": "cc-skills",
+      "source": "plugins/cc-skills",
+      "description": "12 development workflow skills for branch management, code review, implementation planning, task estimation, and project management with Linear integration.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Yoojung Kim"
+      },
+      "keywords": ["development", "workflow", "code-review", "planning", "linear", "git", "project-management", "task-estimation"],
+      "category": "development"
+    }
+  ]
+}

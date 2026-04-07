@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Plan"
+  short_description: "Interactive technical implementation planning"
+  default_prompt: "Use $create-plan to create a detailed implementation plan with phased execution and numbered plan files."

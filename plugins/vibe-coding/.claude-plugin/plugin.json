@@ -1,0 +1,9 @@
+{
+  "name": "vibe-coding",
+  "version": "1.0.0",
+  "description": "7 skills for translating ideas into production-ready frontend code. From project discovery to design systems to coding agent prompts.",
+  "author": {
+    "name": "Yoojung Kim"
+  },
+  "keywords": ["frontend", "design-system", "coding-agent", "prompt-generation", "ux-to-code", "mvp"]
+}

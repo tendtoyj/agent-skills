@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TODAY'S PICKS — 카드뉴스 템플릿</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ======================================================
+     All values extracted from Figma design file via MCP
+     ====================================================== */
+  :root {
+    --bg: #FFFFFF;
+    --fg: #000000;
+    --highlight: #fff3a0;
+    --feature-bg: #FFFBDD;
+    --placeholder: #d9d9d9;
+    --card-w: 1080px;
+    --card-h: 1350px;
+    --pad-y: 60px;
+    --pad-l: 72px;
+    --content-w: 936px;
+    --rule-h: 3px;
+    --sans: 'Noto Sans KR', sans-serif;
+    --hand: 'Nanum Pen Script', sans-serif;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    padding: 48px 0;
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    color: var(--fg);
+  }
+
+  /* =========================
+     CARD SHELL
+     ========================= */
+  .card {
+    width: var(--card-w);
+    height: var(--card-h);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--pad-y) 0;
+    position: relative;
+  }
+  .card__inner {
+    flex: 1;
+    min-height: 0;
+    width: var(--card-w);
+    padding-left: var(--pad-l);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .card__inner--between {
+    justify-content: space-between;
+  }
+
+  /* =========================
+     HEADER — Brand (Cover/Outro)
+     ========================= */
+  .hdr {
+    width: var(--content-w);
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .hdr__rule {
+    width: 100%;
+    height: var(--rule-h);
+    background: var(--fg);
+    flex-shrink: 0;
+  }
+  .hdr__row {
+    height: 83.5px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hdr__brand {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 2.4px;
+    line-height: normal;
+  }
+  .hdr__dots {
+    display: flex;
+    gap: 8px;
+  }
+  .hdr__dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    background: var(--fg);
+  }
+
+  /* =========================
+     HEADER — Brief (Content pages)
+     ========================= */
+  .bhdr {
+    width: var(--content-w);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bhdr__rule {
+    width: 100%;
+    height: var(--rule-h);
+    background: var(--fg);
+  }
+  .bhdr__row {
+    height: 83.5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bhdr__label {
+    font-size: 30px;
+    font-weight: 700;
+    font-style: italic;
+    line-height: normal;
+  }
+
+  /* =========================
+     PILL TAG
+     ========================= */
+  .pill {
+    height: 60px;
+    border: 2.5px solid var(--fg);
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12.5px 26.5px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
+    white-space: nowrap;
+    background: transparent;
+  }
+
+  /* =========================
+     BOTTOM RULE + SPACER
+     ========================= */
+  .btm {
+    width: var(--content-w);
+    height: var(--rule-h);
+    background: var(--fg);
+    flex-shrink: 0;
+  }
+  .btm-spacer {
+    position: absolute;
+    left: 0;
+    top: 1310px;
+    width: var(--card-w);
+    height: 40px;
+  }
+
+  /* ======================================================
+     CARD 1 — COVER
+     ====================================================== */
+
+  /* Content block */
+  .cv-content {
+    height: 431.5px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+  }
+  .cv-main {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .cv-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* 손글씨 악센트 */
+  .cv-accent {
+    font-family: var(--hand);
+    font-size: 64px;
+    line-height: 76.8px;
+    font-weight: 400;
+  }
+
+  /* 메인 헤드라인 */
+  .cv-headline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
+    font-size: 108px;
+    font-weight: 700;
+    letter-spacing: -2.16px;
+    line-height: 1;
+  }
+  .cv-headline .hl {
+    background: linear-gradient(var(--highlight), var(--highlight)) no-repeat center / 100% 72%;
+    padding: 0 8px;
+  }
+
+  /* 서브타이틀 */
+  .cv-sub {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.28px;
+  }
+
+  /* 태그 */
+  .cv-tags {
+    width: var(--content-w);
+    height: 88px;
+    flex-shrink: 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  /* ======================================================
+     CARD 2 — CONTENT (IMAGE)
+     ====================================================== */
+
+  /* Title area */
+  .ci-title-wrap {
+    width: var(--content-w);
+    height: 262px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+  }
+  .ci-title {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    font-size: 76px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -2.16px;
+  }
+  .ci-title .hl {
+    background: linear-gradient(var(--highlight), var(--highlight)) no-repeat center / 100% 72%;
+    padding: 0 8px;
+  }
+
+  /* Image */
+  .ci-image {
+    width: 946px;
+    height: 576px;
+    background: var(--placeholder);
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .ci-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Body text area */
+  .ci-body-wrap {
+    width: var(--content-w);
+    height: 242px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 40px 0;
+  }
+  .ci-body {
+    font-size: 45px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -2.16px;
+  }
+
+  /* ======================================================
+     CARD 3 — CONTENT (FEATURES)
+     ====================================================== */
+
+  /* Feature container */
+  .cf-features {
+    width: var(--content-w);
+    height: 576px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Feature card */
+  .fcard {
+    width: var(--content-w);
+    background: var(--feature-bg);
+    border-radius: 20px;
+    padding: 43px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .fcard__top {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .fcard__icon {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+  .fcard__icon svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--fg);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .fcard__name {
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -2.16px;
+  }
+  .fcard__desc {
+    font-size: 31px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -2.16px;
+  }
+
+  /* ======================================================
+     CARD 4 — OUTRO
+     ====================================================== */
+
+  /* Center content */
+  .ou-center {
+    width: var(--content-w);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* Icon */
+  .ou-icon {
+    width: 180px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ou-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Message */
+  .ou-msg {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 67.2px;
+    letter-spacing: -0.96px;
+    text-align: center;
+  }
+
+  /* Account pill */
+  .ou-account {
+    height: 70.5px;
+    border: 2.5px solid var(--fg);
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16.5px 42.5px;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: normal;
+    text-align: center;
+    background: transparent;
+  }
+
+  /* Bottom empty spacer (outro) */
+  .ou-spacer {
+    width: var(--content-w);
+    height: 88px;
+    flex-shrink: 0;
+  }
+
+  /* =========================
+     DEV LABELS
+     ========================= */
+  .label {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-bottom: -36px;
+    letter-spacing: 0.08em;
+    font-family: 'SF Mono', Menlo, monospace;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+
+<!-- ============================================================
+     CARD 1 — COVER
+     ============================================================ -->
+<div class="label">1 / 4 — Cover</div>
+<div class="card">
+  <div class="card__inner card__inner--between">
+
+    <!-- Header -->
+    <div class="hdr">
+      <div class="hdr__rule"></div>
+      <div class="hdr__row">
+        <span class="hdr__brand">TODAY&rsquo;S PICKS</span>
+        <div class="hdr__dots">
+          <div class="hdr__dot"></div>
+          <div class="hdr__dot"></div>
+          <div class="hdr__dot"></div>
+        </div>
+      </div>
+      <div class="hdr__rule"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="cv-content">
+      <div class="cv-main">
+        <div class="cv-titles">
+          <div class="cv-accent" data-dynamic="cover-accent">{{accent-text}}</div>
+          <div class="cv-headline">
+            <span class="hl" data-dynamic="cover-highlight">{{highlight-keyword}}</span>
+            <span data-dynamic="cover-title">{{cover-title}}</span>
+          </div>
+        </div>
+        <div class="cv-sub" data-dynamic="cover-sub">{{cover-subtitle}}</div>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="cv-tags" data-dynamic="cover-tags">
+      <span class="pill">{{tag-1}}</span>
+      <span class="pill">{{tag-2}}</span>
+      <span class="pill">{{tag-3}}</span>
+    </div>
+
+  </div>
+
+  <div class="btm"></div>
+  <div class="btm-spacer"></div>
+</div>
+
+
+<!-- ============================================================
+     CARD 2 — CONTENT (IMAGE)
+     ============================================================ -->
+<div class="label">2 / 4 — Content · Image</div>
+<div class="card">
+  <div class="card__inner">
+
+    <!-- Brief Header -->
+    <div class="bhdr">
+      <div class="bhdr__rule"></div>
+      <div class="bhdr__row">
+        <span class="bhdr__label">In Brief</span>
+        <span class="pill" data-dynamic="category">{{category}}</span>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="ci-title-wrap">
+      <div class="ci-title" data-dynamic="title">
+            <span><span class="hl">{{highlight-keyword}}</span>{{title-line-1}}</span>
+            <span>{{title-line-2}}</span>
+          </div>
+    </div>
+
+    <!-- Image -->
+    <div class="ci-image" data-dynamic="image">
+      <!-- <img src="{{image-url}}" alt="{{image-alt}}"> -->
+    </div>
+
+    <!-- Body -->
+    <div class="ci-body-wrap">
+      <div class="ci-body" data-dynamic="body">{{body-line-1}}<br>{{body-line-2}}<br>{{body-line-3}}</div>
+    </div>
+
+  </div>
+
+  <div class="btm"></div>
+  <div class="btm-spacer"></div>
+</div>
+
+
+<!-- ============================================================
+     CARD 3 — CONTENT (FEATURES)
+     ============================================================ -->
+<div class="label">3 / 4 — Content · Features</div>
+<div class="card">
+  <div class="card__inner">
+
+    <!-- Brief Header -->
+    <div class="bhdr">
+      <div class="bhdr__rule"></div>
+      <div class="bhdr__row">
+        <span class="bhdr__label">In Brief</span>
+        <span class="pill" data-dynamic="category">{{category}}</span>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <div class="ci-title-wrap">
+      <div class="ci-title" data-dynamic="title">
+            <span><span class="hl">{{highlight-keyword}}</span>{{title-line-1}}</span>
+            <span>{{title-line-2}}</span>
+          </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="cf-features" data-dynamic="features">
+      <div class="fcard">
+        <div class="fcard__top">
+          <div class="fcard__icon" data-dynamic="icon">
+            <!-- Lucide icon SVG -->
+            <svg viewBox="0 0 24 24"><path d="{{icon-1-path}}"/></svg>
+          </div>
+          <div class="fcard__name" data-dynamic="feature-title">{{feature-1-title}}</div>
+        </div>
+        <div class="fcard__desc" data-dynamic="feature-desc">{{feature-1-description}}</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard__top">
+          <div class="fcard__icon" data-dynamic="icon">
+            <!-- Lucide icon SVG -->
+            <svg viewBox="0 0 24 24"><path d="{{icon-2-path}}"/></svg>
+          </div>
+          <div class="fcard__name" data-dynamic="feature-title">{{feature-2-title}}</div>
+        </div>
+        <div class="fcard__desc" data-dynamic="feature-desc">{{feature-2-description}}</div>
+      </div>
+      <div class="fcard">
+        <div class="fcard__top">
+          <div class="fcard__icon" data-dynamic="icon">
+            <!-- Lucide icon SVG -->
+            <svg viewBox="0 0 24 24"><path d="{{icon-3-path}}"/></svg>
+          </div>
+          <div class="fcard__name" data-dynamic="feature-title">{{feature-3-title}}</div>
+        </div>
+        <div class="fcard__desc" data-dynamic="feature-desc">{{feature-3-description}}</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="ci-body-wrap">
+      <div class="ci-body" data-dynamic="body">{{body-line-1}}<br>{{body-line-2}}<br>{{body-line-3}}</div>
+    </div>
+
+  </div>
+
+  <div class="btm"></div>
+  <div class="btm-spacer"></div>
+</div>
+
+
+<!-- ============================================================
+     CARD 4 — OUTRO
+     ============================================================ -->
+<div class="label">4 / 4 — Outro</div>
+<div class="card">
+  <div class="card__inner card__inner--between">
+
+    <!-- Header -->
+    <div class="hdr">
+      <div class="hdr__rule"></div>
+      <div class="hdr__row">
+        <span class="hdr__brand">TODAY&rsquo;S PICKS</span>
+        <div class="hdr__dots">
+          <div class="hdr__dot"></div>
+          <div class="hdr__dot"></div>
+          <div class="hdr__dot"></div>
+        </div>
+      </div>
+      <div class="hdr__rule"></div>
+    </div>
+
+    <!-- Center Content -->
+    <div class="ou-center">
+      <div class="ou-icon">
+        <img src="{{outro-icon-url}}" alt="icon">
+      </div>
+      <div class="ou-msg" data-dynamic="outro-message">{{outro-line-1}}<br>{{outro-line-2}}<br>{{outro-line-3}}</div>
+      <span class="ou-account" data-dynamic="account">{{account-handle}}</span>
+    </div>
+
+    <!-- Bottom spacer -->
+    <div class="ou-spacer"></div>
+
+  </div>
+
+  <div class="btm"></div>
+  <div class="btm-spacer"></div>
+</div>
+
+
+</body>
+</html>

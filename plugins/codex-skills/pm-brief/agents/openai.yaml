@@ -1,0 +1,4 @@
+interface:
+  display_name: "PM Brief"
+  short_description: "Brief technical plans for product managers"
+  default_prompt: "Summarize the plan for PMs in Korean with impact, effort, risks, and decisions."

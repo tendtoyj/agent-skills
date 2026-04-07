@@ -1,0 +1,4 @@
+interface:
+  display_name: "Estimate Task"
+  short_description: "Estimate scope, risk, and work split from research docs"
+  default_prompt: "Analyze a research document and produce scope, risk, and task-splitting estimation in Korean."

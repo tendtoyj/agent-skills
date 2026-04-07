@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Storyteller — Template A (Full Image)</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* ===== tpl-a-cover: 표지 (풀 이미지 + 그라데이션 오버레이) ===== */
+    .tpl-a-cover {
+      width: 1080px;
+      height: 1350px;
+      padding: 43px 53px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: #ffffff;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tpl-a-cover::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(141, 141, 141, 0.5) 39.423%,
+        rgb(26, 26, 26) 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .tpl-a-cover .frame-12 {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex: 1;
+      width: 100%;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tpl-a-cover .top-label {
+      font-weight: 400;
+      font-size: 50px;
+      color: #000000;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-cover .frame-13 {
+      display: flex;
+      flex-direction: column;
+      gap: 140px;
+      align-items: flex-start;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-cover .frame-11 {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-cover .title {
+      font-weight: 600;
+      font-size: 100px;
+      line-height: 1.2;
+      color: #ffffff;
+      letter-spacing: -2px;
+      text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-cover .subtitle {
+      font-weight: 400;
+      font-size: 50px;
+      line-height: 1.2;
+      color: #d7d7d7;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-cover .brand {
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 1.2;
+      color: #cdcdcd;
+      text-align: right;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* ===== tpl-a-content: 내용 (풀 이미지 배경 + 텍스트) ===== */
+    .tpl-a-content {
+      width: 1080px;
+      height: 1350px;
+      padding: 44px 53px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      background-color: #ffffff;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tpl-a-content::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      mask-image: linear-gradient(to bottom, transparent 40%, black 75%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 40%, black 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .tpl-a-content .frame-15 {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: flex-start;
+      width: 924px;
+      line-height: 1.2;
+      text-align: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tpl-a-content .frame-14 {
+      display: flex;
+      flex-direction: column;
+      gap: 34px;
+      align-items: center;
+      width: 100%;
+      color: #000000;
+      flex-shrink: 0;
+    }
+
+    .tpl-a-content .title {
+      font-weight: 600;
+      font-size: 80px;
+      line-height: 1.2;
+      letter-spacing: -1.6px;
+      width: 100%;
+      flex-shrink: 0;
+      text-shadow: 0 2px 8px rgba(220, 220, 220, 0.3);
+    }
+
+    .tpl-a-content .body-text {
+      font-weight: 400;
+      font-size: 50px;
+      line-height: 1.2;
+      width: 100%;
+      flex-shrink: 0;
+      text-shadow: 0 2px 8px rgba(220, 220, 220, 0.3);
+    }
+
+    .tpl-a-content .brand {
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 1.2;
+      color: #020202;
+      width: 100%;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- tpl-a-cover: 표지 (풀 이미지 + 그라데이션) -->
+  <div class="tpl-a-cover" id="{{card-id}}" style="background-image: url('{{image}}')">
+    <div class="frame-12">
+      <p class="top-label">{{top-label}}</p>
+      <div class="frame-13">
+        <div class="frame-11">
+          <div class="title">{{title}}</div>
+          <p class="subtitle">{{subtitle}}</p>
+        </div>
+        <p class="brand">{{brand}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- tpl-a-content: 내용 (풀 이미지 배경 + 텍스트) -->
+  <div class="tpl-a-content" id="{{card-id}}" style="background-image: url('{{image}}')">
+    <div class="frame-15">
+      <div class="frame-14">
+        <p class="title">{{title}}</p>
+        <div class="body-text">{{body-text}}</div>
+      </div>
+      <p class="brand">{{brand}}</p>
+    </div>
+  </div>
+
+</body>
+</html>

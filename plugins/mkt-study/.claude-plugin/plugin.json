@@ -1,0 +1,9 @@
+{
+  "name": "mkt-study",
+  "version": "1.0.0",
+  "description": "9 research skills for market scanning, competitive intelligence, customer profiling, voice-of-customer mining, and strategic synthesis. Build a complete research foundation before marketing execution.",
+  "author": {
+    "name": "Yoojung Kim"
+  },
+  "keywords": ["research", "competitive-analysis", "customer-insight", "market-research", "strategy"]
+}

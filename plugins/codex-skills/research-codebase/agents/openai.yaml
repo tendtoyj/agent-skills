@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Codebase"
+  short_description: "Research codebase and implementation planning"
+  default_prompt: "Research this codebase topic deeply, then save findings in the next numbered thoughts/research note with an auto-generated title slug."

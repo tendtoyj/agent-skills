@@ -1,0 +1,4 @@
+interface:
+  display_name: "Linear Issue Capture"
+  short_description: "Capture and create Linear issues fast"
+  default_prompt: "Create a Linear issue from a quick description. Ask for current vs expected behavior, propose labels/status/priority/cycle/milestone, and confirm before creating."

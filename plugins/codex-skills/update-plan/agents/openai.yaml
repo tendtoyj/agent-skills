@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Plan"
+  short_description: "Validate and improve implementation plans"
+  default_prompt: "Validate an existing plan file against the codebase, propose concrete fixes, and update the selected plan in place after confirmation."

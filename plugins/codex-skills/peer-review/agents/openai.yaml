@@ -1,0 +1,4 @@
+interface:
+  display_name: "Peer Review"
+  short_description: "Validate peer findings with code evidence"
+  default_prompt: "Use $peer-review to validate user-provided peer-review findings against the codebase; if findings are missing, request them first, then report valid vs invalid findings and a prioritized fix plan."

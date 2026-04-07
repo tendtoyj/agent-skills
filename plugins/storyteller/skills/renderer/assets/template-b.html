@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Storyteller — Template B (Part Image)</title>
+  <style>
+    @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    /* ===== tpl-b-cover: 표지 (이미지 영역 + 텍스트 오버레이) ===== */
+    .tpl-b-cover {
+      width: 1080px;
+      height: 1350px;
+      padding: 43px 53px;
+      display: flex;
+      flex-direction: column;
+      background-color: #fdfdfd;
+    }
+
+    .tpl-b-cover .image-area {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+      background-color: #d5d5d5;
+      background-size: cover;
+      background-position: center;
+      padding: 0 16px;
+    }
+
+    .tpl-b-cover .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      padding: 20px 20px 50px 20px;
+      line-height: 1.2;
+      white-space: pre-wrap;
+    }
+
+    .tpl-b-cover .top-label {
+      font-weight: 300;
+      font-size: 30px;
+      color: #000000;
+      text-align: right;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-b-cover .text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .tpl-b-cover .title {
+      font-weight: 600;
+      font-size: 100px;
+      line-height: 1.2;
+      color: #000000;
+      letter-spacing: -2px;
+      width: 100%;
+    }
+
+    .tpl-b-cover .subtitle {
+      font-weight: 400;
+      font-size: 50px;
+      line-height: 1.2;
+      color: #414141;
+      width: 100%;
+    }
+
+    /* ===== tpl-b-content: 내용 (상단 이미지 + 하단 텍스트) ===== */
+    .tpl-b-content {
+      width: 1080px;
+      height: 1350px;
+      padding: 44px 53px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 40px;
+      background-color: #fdfdfd;
+    }
+
+    .tpl-b-content .image-area {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      background-color: #d5d5d5;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .tpl-b-content .text-section {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: flex-start;
+      width: 100%;
+      line-height: 1.2;
+      text-align: center;
+      white-space: pre-wrap;
+      flex-shrink: 0;
+    }
+
+    .tpl-b-content .text-group {
+      display: flex;
+      flex-direction: column;
+      gap: 34px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .tpl-b-content .title {
+      font-weight: 600;
+      font-size: 80px;
+      line-height: 1.2;
+      color: #000000;
+      letter-spacing: -1.6px;
+      width: 100%;
+    }
+
+    .tpl-b-content .body-text {
+      font-weight: 400;
+      font-size: 50px;
+      line-height: 1.2;
+      color: #444444;
+      width: 100%;
+    }
+
+    .tpl-b-content .brand {
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 1.2;
+      color: #020202;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- tpl-b-cover: 표지 (이미지 + 텍스트 오버레이) -->
+  <div class="tpl-b-cover" id="{{card-id}}">
+    <div class="image-area" style="background-image: url('{{image}}')">
+      <div class="content-wrapper">
+        <p class="top-label">{{brand}}</p>
+        <div class="text-group">
+          <div class="title">{{title}}</div>
+          <p class="subtitle">{{subtitle}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- tpl-b-content: 내용 (상단 이미지 + 하단 텍스트) -->
+  <div class="tpl-b-content" id="{{card-id}}">
+    <div class="image-area" style="background-image: url('{{image}}')"></div>
+    <div class="text-section">
+      <div class="text-group">
+        <p class="title">{{title}}</p>
+        <div class="body-text">{{body-text}}</div>
+      </div>
+      <p class="brand">{{brand}}</p>
+    </div>
+  </div>
+
+</body>
+</html>

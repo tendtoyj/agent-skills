@@ -1,0 +1,12 @@
+{
+  "name": "office-work",
+  "version": "1.0.0",
+  "description": "Skills for business document and presentation production. Includes ppt-story-maker for creating persuasive PPT storylines through interactive consulting.",
+  "author": {
+    "name": "Yoojung Kim"
+  },
+  "keywords": [
+    "ppt", "presentation", "storyline", "consulting",
+    "slide", "report", "business-document"
+  ]
+}

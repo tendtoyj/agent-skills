@@ -1,0 +1,12 @@
+{
+  "name": "cc-skills",
+  "version": "1.0.0",
+  "description": "12 development workflow skills for branch management, code review, implementation planning, task estimation, and project management with Linear integration.",
+  "author": {
+    "name": "Yoojung Kim"
+  },
+  "keywords": [
+    "development", "workflow", "code-review", "planning",
+    "linear", "git", "project-management", "task-estimation"
+  ]
+}

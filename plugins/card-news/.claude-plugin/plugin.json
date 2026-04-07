@@ -1,0 +1,12 @@
+{
+  "name": "card-news",
+  "version": "1.0.0",
+  "description": "6 skills for Instagram card-news production: orchestrator, copy-writer, copy-evaluator, contents-manager, image-generator, and card-news-maker. Automates the full pipeline from copywriting to final 1080x1350 PNG rendering.",
+  "author": {
+    "name": "Yoojung Kim"
+  },
+  "keywords": [
+    "card-news", "instagram", "social-media", "copywriting",
+    "image-generation", "playwright", "content-production"
+  ]
+}

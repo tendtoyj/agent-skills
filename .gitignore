@@ -1,0 +1,19 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Development notes (private)
+thoughts/
+docs/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Node
+node_modules/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
