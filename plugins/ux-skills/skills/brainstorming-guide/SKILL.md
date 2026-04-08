@@ -47,13 +47,13 @@ ux-output/
 └── {feature-name}/          ← one folder per feature
     ├── pain-points.md       ← Phase 2A output (if pain path)
     ├── ux-values.md         ← Phase 2B output (if value path)
-    └── ideas.md             ← Phase 3 output
+    └── ideas.md             ← Phase 3 output (pain path only)
 ```
 
 - `{feature-name}` is determined in Phase 1 based on what the user describes. Confirm the name with the user before creating the folder (e.g., "이 Feature 폴더 이름을 'onboarding-flow'로 하면 될까요?").
 - Create the `ux-output/{feature-name}/` directory when saving the first document. If `ux-output/` does not exist yet, create it too.
-- Each phase saves its own file: Phase 2A saves `pain-points.md`, Phase 2B saves `ux-values.md`, Phase 3 saves `ideas.md`.
-- Since Phase 2 is a branch (A or B, not both), a given feature folder will have either `pain-points.md` or `ux-values.md`, plus `ideas.md`.
+- Pain path: `pain-points.md` + `ideas.md` (Phase 2A → Phase 3)
+- Value path: `ux-values.md`만 생성 (Phase 2B에서 종료, Phase 3 진행하지 않음)
 
 ---
 
@@ -138,13 +138,26 @@ This phase is about understanding what "better" looks like — the emotions, exp
 3. Confirm with the user.
 4. Save to `ux-output/{feature-name}/ux-values.md`.
 
-After saving, transition naturally to Phase 3.
+Value path에서는 여기서 스킬이 종료된다. ux-values 자체가 이미 방향성과 레퍼런스를 포함하고 있으므로, 별도의 아이디어 도출 단계 없이 다음 스킬(userflow-generator 등)로 이어간다.
 
 ---
 
-## Phase 3: Solution Ideation
+## Phase 3: Solution Ideation (Pain path 전용)
 
-This phase is deliberately independent from the pain points or values collected earlier. The goal is to generate ideas freely without being anchored to specific problems — that connection comes later, outside this skill's scope.
+Pain path(Phase 2A)를 거친 경우에만 이 단계로 진행한다. Value path(Phase 2B)에서는 이 단계를 건너뛴다.
+
+이 단계는 앞서 수집한 페인포인트와 의도적으로 독립적으로 진행한다. 문제에 앵커링되지 않고 자유롭게 아이디어를 생성하는 것이 목표 — 페인포인트와의 연결은 이 스킬의 범위 밖에서 수행한다.
+
+### 3-0. 플랫폼 확인
+
+아이디어를 구체화하기 전에, 이 Feature가 어떤 플랫폼을 대상으로 하는지 확인한다. 플랫폼에 따라 아이디어의 시나리오와 인터랙션이 달라지기 때문.
+
+1. `ux-memory/project-context.md`의 "진행 중인 Feature" 테이블에서 현재 Feature의 **플랫폼** 컬럼을 확인한다.
+2. 이미 기록되어 있으면 "모바일로 진행하고 있었는데, 그대로 할까요?" 형태로 간단히 확인만 한다.
+3. 비어 있으면 자연스럽게 질문한다: "이 아이디어들은 어떤 플랫폼을 염두에 두고 계세요? 모바일 앱 / 웹 / 반응형 / 기타"
+4. 확인된 플랫폼을 `project-context.md`의 해당 Feature 행 플랫폼 컬럼에 기록한다.
+
+플랫폼 값: `모바일(iOS/Android)`, `웹(Desktop)`, `반응형`, `기타(설명)`
 
 ### How to facilitate
 
@@ -155,6 +168,7 @@ This phase is deliberately independent from the pain points or values collected 
 - Offer real-world references or examples of similar approaches in other products
 - Ask clarifying questions: "이건 구체적으로 어떤 상황에서 쓰이는 건가요?"
 - Confirm your understanding: "이런 느낌인 건가요?" and add detail to see if it matches their vision
+- **확인된 플랫폼에 맞춰 구체화한다.** 모바일이면 탭·스와이프·한 손 조작 등의 맥락으로, 웹이면 넓은 화면·마우스·키보드 등의 맥락으로 시나리오를 그린다. 플랫폼이 다르면 같은 아이디어라도 실현 방식이 다르다.
 
 **Expand into new directions.** After working through the user's initial ideas, actively suggest adjacent possibilities:
 - "이 방향에서 조금 다르게 생각해보면, 이런 것도 있을 수 있을 것 같은데요..."

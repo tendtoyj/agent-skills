@@ -40,8 +40,10 @@ You have existing context from the brainstorming phase — use it. Unlike the br
 **Input:**
 
 Before starting, read the brainstorming-guide outputs from the feature's `ux-output/{feature-name}/` folder:
-- `pain-points.md` or `ux-values.md` (depending on which path was taken)
-- `ideas.md`
+- `pain-points.md` + `ideas.md` (pain path) — 또는
+- `ux-values.md` (value path — `ideas.md` 없음)
+
+Value path에서는 `ideas.md`가 없는 것이 정상이다. ux-values 자체가 방향성과 레퍼런스를 포함하고 있으므로 이것만으로 플로우를 도출한다.
 
 If these files don't exist, ask the user for context or suggest running the brainstorming-guide first.
 
@@ -70,7 +72,18 @@ plugins/ux-skills/
 
 Read the brainstorming outputs. Understand the pain points (or values), the ideas, and the overall feature direction. You'll use this to make informed proposals.
 
-### 1-2. Propose 3-4 major user flows
+### 1-2. 플랫폼 확인
+
+플로우를 제안하기 전에, 이 Feature의 대상 플랫폼을 확인한다. 플랫폼에 따라 진입 경로, 인터랙션 패턴, 시나리오의 구체적 모습이 달라지기 때문.
+
+1. `ux-memory/project-context.md`의 "진행 중인 Feature" 테이블에서 현재 Feature의 **플랫폼** 컬럼을 확인한다.
+2. 이미 기록되어 있으면 "모바일로 진행하고 있었는데, 그대로 할까요?" 형태로 간단히 확인만 한다.
+3. 비어 있으면 자연스럽게 질문한다: "이 플로우는 어떤 플랫폼 기준으로 그려볼까요? 모바일 앱 / 웹 / 반응형 / 기타"
+4. 확인된 플랫폼을 `project-context.md`의 해당 Feature 행 플랫폼 컬럼에 기록한다.
+
+플랫폼 값: `모바일(iOS/Android)`, `웹(Desktop)`, `반응형`, `기타(설명)`
+
+### 1-3. Propose 3-4 major user flows
 
 Based on the context, propose the major use cases. Each flow should represent a distinct user motivation — a reason someone would engage with this feature.
 
@@ -92,6 +105,8 @@ Ask the user to review: are these the right flows? Missing any? Any that don't m
 Once the flows are confirmed, go through them one at a time. Let the user choose which to start with, or suggest one.
 
 ### How to explore a flow
+
+**확인된 플랫폼에 맞춰 탐색한다.** 진입 경로, 화면 전환, 인터랙션을 플랫폼 맥락에서 구체화한다. 모바일이면 알림 탭·앱 열기 같은 진입, 웹이면 URL 접근·탭 전환 같은 진입. 같은 플로우라도 플랫폼에 따라 자연스러운 경험이 다르다.
 
 **Start from a concrete entry moment.** Don't try to map the whole flow at once. Pick the very first moment — what triggers this flow? What does the user see first? What do they feel?
 

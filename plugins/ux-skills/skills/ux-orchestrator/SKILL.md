@@ -52,10 +52,11 @@ ux-memory/
 | 파일 | 생성 스킬 | 상태 |
 |------|----------|------|
 | `pain-points.md` 또는 `ux-values.md` | brainstorming-guide | ✅ / ❌ |
-| `ideas.md` | brainstorming-guide | ✅ / ❌ |
+| `ideas.md` | brainstorming-guide | ✅ / ❌ / N/A (value path) |
 | `persona.md` | persona-maker | ✅ / ❌ |
 | `user-flows.md` | userflow-generator | ✅ / ❌ |
 | `screen-plan.md` | screen-planner | ✅ / ❌ |
+| `design-plan.md` | design-plan | ✅ / ❌ |
 
 **Research 폴더 스캔:**
 
@@ -133,7 +134,7 @@ Feature나 Research가 여러 개 진행 중인 경우:
 ```
 Step 1: BRAINSTORMING
   → /ux-skills:brainstorming-guide
-  → 저장: ux-output/{feature}/pain-points.md 또는 ux-values.md + ideas.md
+  → 저장: ux-output/{feature}/pain-points.md + ideas.md (pain path) 또는 ux-values.md (value path)
 
 Step 2: USERFLOW
   → /ux-skills:userflow-generator
@@ -142,6 +143,11 @@ Step 2: USERFLOW
 Step 3: SCREEN PLAN
   → /ux-skills:screen-planner
   → 저장: ux-output/{feature}/screen-plan.md
+
+Step 4: DESIGN IMPLEMENT (선택)
+  → /ux-skills:design-plan
+  → 저장: ux-output/{feature}/design-plan.md
+  → 디자인 스크린샷이 있을 때, 디자인 시스템 매핑 & 갭 분석
 ```
 
 ### Route B: 리서치 연결
@@ -151,7 +157,7 @@ Step 3: SCREEN PLAN
 ```
 Step 1: BRAINSTORMING
   → /ux-skills:brainstorming-guide
-  → 저장: ux-output/{feature}/pain-points.md 또는 ux-values.md + ideas.md
+  → 저장: ux-output/{feature}/pain-points.md + ideas.md (pain path) 또는 ux-values.md (value path)
 
 Step 2: USERFLOW
   → /ux-skills:userflow-generator
@@ -173,7 +179,7 @@ Step 4: SURVEY / INTERVIEW
 ```
 Step 1: BRAINSTORMING
   → /ux-skills:brainstorming-guide
-  → 저장: ux-output/{feature}/pain-points.md 또는 ux-values.md + ideas.md
+  → 저장: ux-output/{feature}/pain-points.md + ideas.md (pain path) 또는 ux-values.md (value path)
 
 Step 2: PERSONA
   → /ux-skills:persona-maker
@@ -186,6 +192,10 @@ Step 3: USERFLOW
 Step 4: SCREEN PLAN
   → /ux-skills:screen-planner
   → 저장: ux-output/{feature}/screen-plan.md
+
+Step 5: DESIGN IMPLEMENT (선택)
+  → /ux-skills:design-plan
+  → 저장: ux-output/{feature}/design-plan.md
 ```
 
 ### Route D: 리서치 우선
@@ -195,7 +205,7 @@ Step 4: SCREEN PLAN
 ```
 Step 1: BRAINSTORMING
   → /ux-skills:brainstorming-guide
-  → 저장: ux-output/{feature}/pain-points.md 또는 ux-values.md + ideas.md
+  → 저장: ux-output/{feature}/pain-points.md + ideas.md (pain path) 또는 ux-values.md (value path)
 
 Step 2: UR PLAN
   → /ux-skills:ur-planner
@@ -217,6 +227,7 @@ Step 3: SURVEY / INTERVIEW
 | Brainstorming만 완료 | Userflow Generator 또는 Persona Maker 또는 UR Plan |
 | Brainstorming + Persona 완료 | Userflow Generator |
 | Brainstorming + Userflow 완료 | Screen Planner 또는 UR Plan |
+| Brainstorming + Userflow + Screen Plan 완료 | Design Implement (스크린샷 있을 때) |
 | UR Plan만 완료 | Survey Maker 또는 Interview Helper |
 
 다음 스킬이 여러 개 가능한 경우, 선택지를 제시하고 사용자가 고르도록 한다:
