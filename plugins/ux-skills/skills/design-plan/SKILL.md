@@ -14,9 +14,12 @@ description: Analyzes a design (screenshot or Figma link) against the project's 
 2. 작업 대상 Feature의 기존 산출물을 `ux-output/{feature-name}/`에서 확인한다.
 
 ### 종료 시
-1. 산출물을 `ux-output/{feature-name}/design-plan.md`에 저장한다.
+1. 산출물을 `ux-output/{feature-name}/designs/NN_{screen-name}/design-plan.md`에 저장한다.
+   - `NN`은 01부터 시작하는 순번. 기존 폴더가 있으면 다음 번호를 사용한다.
+   - `{screen-name}`은 화면 이름의 kebab-case (예: `01_입맛-프로필/design-plan.md`)
+   - `designs/` 및 `NN_{screen-name}/` 디렉토리가 없으면 생성한다.
 2. `ux-memory/activity-log.md`에 실행 기록을 추가한다:
-   `| [날짜] | design-plan | [feature-name] | ux-output/[feature-name]/design-plan.md | [화면명, 요약] |`
+   `| [날짜] | design-plan | [feature-name] | ux-output/[feature-name]/designs/NN_{screen-name}/design-plan.md | [화면명, 요약] |`
 3. `ux-memory/project-context.md`의 "진행 중인 Feature" 테이블을 갱신한다.
 
 ---
@@ -186,7 +189,7 @@ Phase 2의 4개 블록을 사용자에게 보여주고 피드백을 받는다:
 
 ## Phase 3: 저장
 
-사용자 확인이 완료되면 `design-plan.md`에 저장한다.
+사용자 확인이 완료되면 `designs/NN_{screen-name}/design-plan.md`에 저장한다.
 
 ### 산출물 구조
 
@@ -200,6 +203,7 @@ Phase 2의 4개 블록을 사용자에게 보여주고 피드백을 받는다:
 - 날짜: {date}
 - 디자인 소스: {screenshot / Figma link}
 - 참조 소스: {파일/경로 목록}
+- 관련 Screen Plan: screen-plans/{해당 파일명}
 
 ## 화면 조립 구조
 (컴포넌트 트리 + 커버리지 요약)

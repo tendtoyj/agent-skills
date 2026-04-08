@@ -1,7 +1,7 @@
 {
   "name": "ux-skills",
   "version": "2.0.0",
-  "description": "UX research and design skills with shared project memory. Includes brainstorming, persona creation, user flow generation, screen planning, interview design, survey building, and user research planning — orchestrated through a context-aware routing system.",
+  "description": "UX research and design skills with shared project memory. Includes brainstorming, persona creation, user flow generation, screen planning, interview design, survey building, user research planning, design planning, and design implementation — orchestrated through a context-aware routing system.",
   "author": {
     "name": "Yoojung Kim"
   },

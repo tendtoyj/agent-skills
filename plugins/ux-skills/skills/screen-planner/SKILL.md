@@ -14,9 +14,11 @@ Takes a confirmed user flow and breaks it down into individual screens. For each
 2. 작업 대상 Feature의 기존 산출물을 `ux-output/{feature-name}/`에서 확인한다.
 
 ### 종료 시
-1. 산출물을 `ux-output/{feature-name}/screen-plan.md`에 저장한다.
+1. 산출물을 `ux-output/{feature-name}/screen-plans/NN_{flow-name}.md`에 저장한다.
+   - `NN`은 01부터 시작하는 순번. 기존 파일이 있으면 다음 번호를 사용한다.
+   - `{flow-name}`은 플로우 이름의 kebab-case (예: `01_온보딩-플로우.md`)
 2. `ux-memory/activity-log.md`에 실행 기록을 추가한다:
-   `| [날짜] | screen-planner | [feature-name] | ux-output/[feature-name]/screen-plan.md | [플랫폼, 화면 수] |`
+   `| [날짜] | screen-planner | [feature-name] | ux-output/[feature-name]/screen-plans/NN_{flow-name}.md | [플랫폼, 화면 수] |`
 3. `ux-memory/project-context.md`의 "진행 중인 Feature" 테이블을 갱신한다.
 
 ---
@@ -57,11 +59,15 @@ plugins/ux-skills/
         ├── ux-values.md         ← from brainstorming-guide
         ├── ideas.md             ← from brainstorming-guide
         ├── user-flows.md        ← from userflow-generator
-        └── screen-plan.md       ← this skill's output
+        └── screen-plans/        ← this skill's output folder
+            ├── 01_{flow-name}.md
+            └── 02_{flow-name}.md
 ```
 
 - The `{feature-name}` folder should already exist. If it doesn't, ask the user for the feature name and check if the folder was created under a different name.
-- `screen-plan.md` is saved incrementally: first the header and screen flow, then each screen is appended as it's completed.
+- `screen-plans/` 디렉토리가 없으면 생성한다.
+- 파일명은 `NN_{flow-name}.md` 형식. 기존 파일이 있으면 다음 순번을 사용한다.
+- 각 파일은 incrementally 저장: first the header and screen flow, then each screen is appended as it's completed.
 
 ---
 
