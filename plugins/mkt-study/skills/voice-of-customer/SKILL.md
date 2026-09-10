@@ -304,7 +304,7 @@ Before saving, verify:
 
 - **Customer profiling / segmentation** → Use `audience-profiler` (maps who they are)
 - **Competitor identification** → Use `competitor-finder` (identifies the players)
-- **Website scraping for competitor copy** → Use `competitor-analyzer` (Firecrawl)
+- **Website scraping for competitor copy** → Use `competitor-analyzer` (`WebFetch`)
 - **Strategic recommendations** → Use `research-synthesizer` (reads this output)
 - **Market sizing / trends** → Use `market-scanner`
 
