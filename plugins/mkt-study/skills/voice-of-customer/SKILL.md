@@ -7,7 +7,7 @@ user-invocable: true
 # Voice of Customer
 
 > Mine real customer language from communities, reviews, and forums.
-> Uses Perplexity for community research. Output feeds copywriting, email, SEO, and every execution skill.
+> Uses `WebSearch` + `WebFetch` for community research — no external MCP required. Output feeds copywriting, email, SEO, and every execution skill.
 
 ---
 
@@ -77,11 +77,11 @@ Collect from the user conversationally. Do NOT dump a form — ask naturally.
 
 사용자가 명시적으로 요청하면 리서치 깊이를 조절합니다. 지정하지 않으면 `deep` (기본값).
 
-| Level | search_context_size | 수집량 | 용도 |
-|-------|--------------------|----|------|
-| `light` | low | 축소 (~50%) | 빠른 감 잡기 |
-| `standard` | medium | 보통 (~75%) | 일반 리서치 |
-| `deep` | high | 전체 (100%) | 본격 리서치 |
+| Level | WebSearch 횟수 | WebFetch 정독 | 수집량 | 용도 |
+|-------|--------------|--------------|----|------|
+| `light` | Step당 1-2회 | 0-1건 | 축소 (~50%) | 빠른 감 잡기 |
+| `standard` | Step당 3-4회 | 2-3건 | 보통 (~75%) | 일반 리서치 |
+| `deep` | Step당 5-6회 | 4-6건 | 전체 (100%) | 본격 리서치 |
 
 > "가볍게", "빠르게", "간단히" → light / "보통으로", "적당히" → standard / 별도 지정 없음 → deep
 
@@ -131,7 +131,7 @@ TRIGGER keywords:
 
 **Goal**: Collect 10-15 real phrases expressing frustration, complaints, and problems.
 
-**Tool**: `perplexity_ask`
+**Tool**: `WebSearch` → `WebFetch`
 
 **Query pattern**:
 ```
@@ -143,7 +143,7 @@ Find 10-15 distinct pain expressions from [primary segment] perspective.
 Include complaints about: [competitor list]
 ```
 
-**Parameters**: `search_context_size`: Research Intensity에 따라 결정 (light→`"low"` / standard→`"medium"` / deep→`"high"`), `search_recency_filter: "year"`
+**Parameters**: **검색 깊이** — Research Intensity에 따라 결정 (light→WebSearch 2-3회 / standard→4-5회 + 상위 스레드 3건 WebFetch / deep→6-8회 + 상위 스레드 6건 WebFetch). **최신성** — 쿼리에 연도를 명시하고(예: "... 2025 2026"), 1년 이상 지난 스레드는 배제합니다.
 
 **수집 목표**: light=5-7 / standard=7-10 / deep=10-15 pain expressions
 
@@ -155,7 +155,7 @@ Include complaints about: [competitor list]
 
 **Why combined**: In communities, wishes and comparisons naturally co-occur in the same threads ("I wish X could do what Y does").
 
-**Tool**: `perplexity_ask`
+**Tool**: `WebSearch` → `WebFetch`
 
 **Query pattern**:
 ```
@@ -170,7 +170,7 @@ For comparisons: note competitors mentioned and criteria used.
 Find 8-10 desire + 5-8 comparison expressions. Include: [competitor list]
 ```
 
-**Parameters**: `search_context_size`: Research Intensity에 따라 결정 (light→`"low"` / standard→`"medium"` / deep→`"high"`), `search_recency_filter: "year"`
+**Parameters**: **검색 깊이** — Research Intensity에 따라 결정 (light→WebSearch 2-3회 / standard→4-5회 + 상위 스레드 3건 WebFetch / deep→6-8회 + 상위 스레드 6건 WebFetch). **최신성** — 쿼리에 연도를 명시하고(예: "... 2025 2026"), 1년 이상 지난 스레드는 배제합니다.
 
 **수집 목표**: desire — light=3-5 / standard=5-7 / deep=8-10, comparison — light=2-3 / standard=3-5 / deep=5-8
 
@@ -180,7 +180,7 @@ Find 8-10 desire + 5-8 comparison expressions. Include: [competitor list]
 
 **Goal**: Collect 8-12 phrases describing the moment of purchase decision.
 
-**Tool**: `perplexity_ask`
+**Tool**: `WebSearch` → `WebFetch`
 
 **Query pattern**:
 ```
@@ -194,7 +194,7 @@ For each: quote the expression, classify type, note source platform.
 Find 8-12 trigger phrases across 3+ trigger types.
 ```
 
-**Parameters**: `search_context_size`: Research Intensity에 따라 결정 (light→`"low"` / standard→`"medium"` / deep→`"high"`), `search_recency_filter: "year"`
+**Parameters**: **검색 깊이** — Research Intensity에 따라 결정 (light→WebSearch 2-3회 / standard→4-5회 + 상위 스레드 3건 WebFetch / deep→6-8회 + 상위 스레드 6건 WebFetch). **최신성** — 쿼리에 연도를 명시하고(예: "... 2025 2026"), 1년 이상 지난 스레드는 배제합니다.
 
 **수집 목표**: light=3-5 / standard=5-8 / deep=8-12 trigger phrases
 
@@ -218,23 +218,37 @@ Use the **exact schema** in `references/customer-language-schema.md`. Key rules:
 Append one row:
 
 ```
-| [YYYY-MM-DD] | voice-of-customer | Full Mining / Refresh | [X pain + Y desire + Z comparison + W trigger collected, key sources] | Perplexity |
+| [YYYY-MM-DD] | voice-of-customer | Full Mining / Refresh | [X pain + Y desire + Z comparison + W trigger collected, key sources] | WebSearch + WebFetch |
 ```
 
 ---
 
-## Perplexity MCP Tool Guide
+## Web Research Tool Guide
+
+이 스킬은 외부 MCP(Perplexity 등) 없이 **내장 도구만으로** 동작합니다.
 
 | Tool | When to Use | This Skill |
 |------|-------------|------------|
-| `perplexity_ask` | Community language collection | Step 2 (pain), Step 3 (desire + comparison), Step 4 (triggers) |
-| `perplexity_search` | Find specific communities/threads | Step 1 only — if known communities need URL discovery |
+| `WebSearch` | 커뮤니티 스레드·리뷰 페이지 URL 발견 | Step 1 (커뮤니티 매핑), 각 Step의 1차 수집 |
+| `WebFetch` | **핵심 도구** — 찾은 스레드/리뷰를 열어 원문 표현을 그대로 추출 | Step 2 (pain), Step 3 (desire + comparison), Step 4 (triggers) |
 
-> This skill does NOT use `perplexity_reason`. The focus is **collection**, not classification or reasoning. `perplexity_ask` handles fact-based community mining best.
+> **이 스킬에서 `WebFetch`는 선택이 아니라 필수입니다.** 이 스킬의 산출물은 요약이 아니라 **고객이 실제로 쓴 문장 그대로**입니다. 검색 스니펫은 잘려 있어 원문 표현을 살릴 수 없으므로, 반드시 스레드를 열어 읽고 인용해야 합니다.
 
-**Common parameters**:
-- `search_context_size`: Research Intensity 레벨에 따라 결정 — 위 Research Intensity 테이블 참조
-- `search_recency_filter`: `"year"` — recent expressions are most relevant for current copy
+> **Perplexity와의 차이 — 반드시 지킬 것**: `WebSearch`는 출처를 자동으로 인용해주지 않고, 결과는 제목+URL+짧은 스니펫뿐입니다.
+> 1. 스니펫만 보고 수치·인용을 쓰지 마세요. 반드시 `WebFetch`로 원문을 열어 확인한 뒤 씁니다.
+> 2. 모든 수치와 주장 옆에 출처 URL을 직접 적습니다.
+> 3. 원문을 확인하지 못한 항목은 `[미확인]`으로 표시하고, 추정치로 채우지 않습니다.
+> 4. 도메인을 좁히려면 `WebSearch`의 `allowed_domains` / `blocked_domains`를 씁니다.
+> 5. `WebSearch`는 US 기준입니다. 한국 시장 조사 시 한국어 쿼리를 별도로 한 번 더 돌리세요.
+
+**Depth & recency**:
+- 검색 깊이: Research Intensity 레벨에 따라 결정 — 위 Research Intensity 테이블 참조
+- 최신성: 쿼리에 "2025 2026"을 명시 — 현재 카피에는 최근 표현이 가장 유효합니다
+- 커뮤니티 직격 쿼리 패턴:
+  - `site:reddit.com [카테고리] frustrated OR "so annoying" OR "wish it could"`
+  - `site:news.ycombinator.com [카테고리]`
+  - `site:g2.com [경쟁사명] reviews` / `site:capterra.com [경쟁사명] reviews`
+  - 한국 커뮤니티: 별도로 한국어 쿼리 (`WebSearch`는 US 기준이라 한국어 쿼리를 따로 돌려야 합니다)
 
 **Query best practices**:
 - Always include the product category in every query
@@ -257,7 +271,7 @@ Before saving, verify:
 - [ ] Every expression includes source platform/community
 - [ ] Community Sources table lists all mined sources with URLs where available
 - [ ] Expressions read like real human language (not AI-summarized)
-- [ ] All Perplexity responses include source citations
+- [ ] 모든 수치·주장에 출처 URL이 붙어 있다 (WebSearch는 자동 인용을 해주지 않으므로 직접 기재)
 - [ ] research-log.md updated with execution record
 - [ ] If Refresh: existing expressions preserved, new ones appended
 

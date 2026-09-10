@@ -245,14 +245,16 @@ Ready to execute? Pick a next step to start.
 
 ## Skill Quick-Reference
 
-| Skill | MCP Tool | Output | Time Est. |
-|-------|----------|--------|-----------|
-| market-scanner | Perplexity | market-landscape.md | 5-10 min |
-| competitor-finder | Perplexity | competitive-intel.md (skeleton) | 5-10 min |
-| competitor-analyzer | Firecrawl | competitive-intel.md (+messaging) | 10-15 min |
-| competitor-visual | Playwright | competitive-intel.md (+design) | 10-15 min |
-| audience-profiler | Perplexity | customer-insight.md | 5-10 min |
-| voice-of-customer | Perplexity | customer-language.md | 5-10 min |
+> **모든 스킬이 외부 MCP 없이 동작합니다.** Perplexity·Firecrawl·Playwright 의존성은 내장 도구(`WebSearch`/`WebFetch`/Claude Browser)와 번들 스크립트로 대체되어 있습니다.
+
+| Skill | Tools | Output | Time Est. |
+|-------|-------|--------|-----------|
+| market-scanner | `WebSearch` + `WebFetch` | market-landscape.md | 5-10 min |
+| competitor-finder | `WebSearch` + `WebFetch` | competitive-intel.md (skeleton) | 5-10 min |
+| competitor-analyzer | `WebFetch` (+ Claude Browser 폴백) | competitive-intel.md (+messaging) | 10-15 min |
+| competitor-visual | `scripts/*.sh` (+ Claude Browser 폴백) | competitive-intel.md (+design) | 10-15 min |
+| audience-profiler | `WebSearch` + `WebFetch` | customer-insight.md | 5-10 min |
+| voice-of-customer | `WebSearch` + `WebFetch` | customer-language.md | 5-10 min |
 | research-synthesizer | None | strategy-brief.md | 5-10 min |
 | expert-validator | Task Agents | strategy-brief.md (+expert) | 10-15 min |
 

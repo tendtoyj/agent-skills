@@ -35,7 +35,7 @@
 
 ## Website Messaging Detail [competitor-analyzer]
 
-<!-- Firecrawl-scraped: headlines, subheads, CTAs, social proof -->
+<!-- WebFetch-extracted: headlines, subheads, CTAs, social proof -->
 <!-- One subsection per competitor -->
 
 <!--
@@ -51,7 +51,7 @@
 
 ## Design Patterns & Visual Audit [competitor-visual]
 
-<!-- Playwright-captured: color palette, typography, visual tone, mobile responsiveness -->
+<!-- Script-downloaded assets + Claude Browser: color palette, typography, visual tone, mobile responsiveness -->
 <!-- Screenshots stored in research-skills/screenshots/ -->
 
 <!--

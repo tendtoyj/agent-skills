@@ -6,7 +6,7 @@ user-invocable: true
 
 # Competitor Visual
 
-> Capture competitor landing pages with Playwright and analyze design patterns — color, typography, layout, visual tone, and responsiveness.
+> Capture competitor landing pages with the bundled asset scripts (+ Claude Browser) and analyze design patterns — color, typography, layout, visual tone, and responsiveness.
 > This is the final step in the competitive chain: competitor-finder → competitor-analyzer → **competitor-visual**.
 
 ---
@@ -16,12 +16,14 @@ user-invocable: true
 Copy tells people what you say. Design tells people how you feel.
 
 Competitor Visual captures what text scraping cannot — the **visual identity** of competitor landing pages. It produces:
-- Screenshots of hero sections, feature pages, and pricing pages
+- 랜딩페이지 스크린샷 (히어로 1280×800 + 페이지 전체 1280×3000)
 - Extracted color palettes, typography stacks, and layout patterns
 - A cross-competitor visual comparison matrix
 - Design gaps and visual differentiation opportunities
 
-Output enriches `research-memory/competitive-intel.md` (Design Patterns section) and saves screenshots to `research-skills/screenshots/`.
+Output enriches `research-memory/competitive-intel.md` (Design Patterns section) and saves downloaded assets + screenshots to `research-memory/assets/[company]/`.
+
+외부 MCP(Playwright 등)는 필요하지 않습니다. 이미 설치된 Chrome을 헤드리스로 불러 랜딩페이지를 캡처하고, 모바일 뷰·배너 처리 등 상호작용이 필요할 때만 내장 Claude Browser를 씁니다.
 
 ---
 
@@ -88,87 +90,163 @@ For Refresh mode: Show current Design Patterns summary and ask which competitors
 
 ---
 
-### Step 2: Playwright Screenshot Capture
+### Step 2: Screenshot Capture + Design Extraction
 
-**Goal**: Navigate to each competitor site and capture screenshots + extract CSS data.
+**Goal**: 경쟁사 랜딩페이지를 실제로 캡처하고, 색·타이포 토큰과 브랜드 자산을 함께 확보합니다.
 
-For each competitor site, execute this sequence:
+**핵심 순서**: 스크립트를 먼저 돌립니다 (빠르고, PNG 파일이 디스크에 남고, 경쟁사 5-8개에 반복하기 쉬움). Claude Browser는 스크립트가 못 하는 것(모바일 뷰·배너 클릭)에만 씁니다.
 
-#### 2a. Desktop Capture (1280×800)
+**먼저 스크립트 경로를 잡습니다** (프로젝트 사본 우선, 없으면 플러그인 캐시):
 
-```
-browser_resize → width: 1280, height: 800
-browser_navigate → competitor URL
-browser_wait_for → time: 3  (allow content to load)
-browser_take_screenshot → filename: "screenshots/[company]-hero.png"
-browser_take_screenshot → fullPage: true, filename: "screenshots/[company]-full.png"
-```
-
-If cookie/consent banner appears:
-```
-browser_snapshot → find dismiss/accept button
-browser_click → close the banner
-browser_take_screenshot → re-capture without banner
+```bash
+SCRIPTS="$( [ -d "$PWD/.claude/skills/competitor-visual/scripts" ] \
+  && echo "$PWD/.claude/skills/competitor-visual/scripts" \
+  || ls -d "$HOME"/.claude/plugins/cache/agentfiles/mkt-study/*/skills/competitor-visual/scripts | head -1 )"
+echo "$SCRIPTS"
 ```
 
-#### 2b. Extract Design Tokens (CSS)
+이후 명령은 모두 이 `$SCRIPTS`를 씁니다. **같은 Bash 호출 안에서** 실행해야 변수가 유지됩니다 (셸 상태는 호출 간 유지되지 않습니다).
 
-Use `browser_evaluate` to programmatically extract color and typography data:
+#### 2a. 랜딩페이지 스크린샷 캡처 — 이 스킬의 핵심
 
-**Color extraction**:
-```javascript
-() => {
-  const body = getComputedStyle(document.body);
-  const hero = document.querySelector('[class*="hero"], header, .banner, main > section:first-child');
-  const hs = hero ? getComputedStyle(hero) : {};
-  const cta = document.querySelector('a[class*="btn"], button[class*="btn"], .cta, [class*="cta"]');
-  const cs = cta ? getComputedStyle(cta) : {};
-  return {
-    bodyBg: body.backgroundColor, bodyColor: body.color,
-    heroBg: hs.backgroundColor || 'N/A',
-    ctaBg: cs.backgroundColor || 'N/A', ctaColor: cs.color || 'N/A',
-    fontFamily: body.fontFamily
-  };
-}
+렌더링된 페이지를 헤드리스 Chrome으로 캡처합니다. Playwright의 `browser_take_screenshot`을 대체하며, 별도 설치 없이 이미 깔려 있는 Chrome을 씁니다.
+
+```bash
+"$SCRIPTS/capture_screenshots.sh" "research-memory/assets/[company]" "[competitor-url]" "[company]"
 ```
 
-**Typography extraction**:
-```javascript
-() => {
-  const tags = ['h1','h2','h3'].map(t => {
-    const el = document.querySelector(t);
-    if (!el) return null;
-    const s = getComputedStyle(el);
-    return { tag: t, font: s.fontFamily, size: s.fontSize, weight: s.fontWeight };
-  }).filter(Boolean);
-  const b = getComputedStyle(document.body);
-  return { headings: tags, bodyFont: b.fontFamily, bodySize: b.fontSize };
-}
+- 인자: `<출력 디렉터리> <페이지 URL> [회사명] [full 높이, 기본 3000]`
+- 결과:
+  | 파일 | 크기 | 무엇을 보는가 |
+  |------|------|--------------|
+  | `[company]-hero.png` | 1280×800 | **가장 중요** — 방문자가 첫 화면에서 보는 것. 히어로 카피·CTA·비주얼의 위계 |
+  | `[company]-full.png` | 1280×3000 | 페이지 위쪽 전체. 섹션 순서, 소셜 프루프 배치, 스크롤 서사 |
+- 페이지가 3000px보다 길면 네 번째 인자를 키웁니다: `... "[company]" 6000`
+
+**캡처한 이미지는 반드시 `Read` 도구로 직접 열어 보세요.** 이 스킬의 산출물은 파일 목록이 아니라 "무엇이 보이는가"에 대한 판단입니다.
+
+##### 이 스크립트가 못 하는 것 → Claude Browser로
+
+| 필요한 것 | 왜 스크립트로 안 되나 | 대응 |
+|----------|---------------------|------|
+| **모바일 뷰** | Chrome CLI에 디바이스 emulation이 없습니다. `--window-size=390`으로 줄여도 viewport meta가 적용되지 않아 **데스크톱 레이아웃이 잘린** 이미지가 나옵니다 (실측 확인). | 2d |
+| **쿠키 배너 닫기** | CLI에서는 클릭할 수 없습니다. 알려진 동의 CDN(OneTrust·Cookiebot·Osano 등)은 차단해 두었지만, 자체 호스팅 배너는 남습니다. | 2d |
+| **탭·아코디언 열기** | 상호작용 불가 | 2d |
+
+```bash
+"$SCRIPTS/fetch_site_assets.sh" "research-memory/assets/[company]" "[competitor-url]" 25
 ```
 
-#### 2c. Mobile Capture (optional — 390×844)
+스크린샷은 "어떻게 보이는가"를 담고, 이 스크립트는 **원본 자산 파일**을 가져옵니다 — 로고 SVG, og:image, 제품 스크린샷 원본. 로고 형태나 이미지 스타일을 자세히 봐야 할 때 씁니다.
 
+- 인자: `<출력 디렉터리> <페이지 URL> [최대 이미지 수, 기본 25]`
+- 결과: `01-og.webp`, `02-icon.svg`, `08-logo.svg` … + `manifest.tsv`
+- 파일명의 role 접두어로 자산 성격을 구분합니다:
+  | role | 의미 | 분석에서의 쓸모 |
+  |------|------|----------------|
+  | `og` | og:image / twitter:image | **가장 중요** — 브랜드가 공유 시 보여주고 싶은 대표 비주얼 |
+  | `logo` | alt·class에 logo/brand | 로고 마크, 고객사 로고 |
+  | `icon` | favicon / apple-touch-icon | 브랜드 마크의 최소 단위 |
+  | `img` | 본문 이미지 | 히어로·제품 스크린샷·일러스트 |
+  | `css-bg` | CSS background url() | 배경 텍스처·그라디언트 이미지 |
+- `manifest.tsv`에 파일명·출처 URL·role·크기가 기록되므로, 분석 시 **어떤 이미지가 어디서 왔는지** 추적할 수 있습니다.
+- 내려받은 이미지는 `Read` 도구로 직접 열어 보세요 — 색감·구도·톤을 눈으로 확인해야 합니다.
+
+#### 2b. 색상·타이포 토큰 추출
+
+```bash
+# $SCRIPTS가 이 Bash 호출에 없으면 위 resolver를 다시 실행하세요
+"$SCRIPTS/extract_design_tokens.sh" "research-memory/assets/[company]" "[competitor-url]"
 ```
-browser_resize → width: 390, height: 844
-browser_wait_for → time: 2
-browser_take_screenshot → filename: "screenshots/[company]-mobile.png"
-browser_resize → width: 1280, height: 800  (reset)
+
+페이지 HTML + 링크된 스타일시트를 모아 아래를 출력하고 `design-tokens.txt`로 저장합니다:
+- **Color palette** — HEX 빈도순 (순수 흑백 제외). 최빈 색이 대개 브랜드 컬러입니다.
+- **Named design tokens** — `--color-brand`, `--color-accent` 같이 브랜드가 직접 이름 붙인 변수. **가장 신뢰도 높은 근거**입니다.
+- **Font stacks** — 빈도순 폰트 스택
+- **Font sizes** — 타입 스케일
+
+> 스크립트는 video-js·highlight.js 같은 서드파티 라이브러리 CSS와 Tailwind 기본 팔레트(`--tw-*`, `--color-gray-*`)를 자동으로 걸러내, 브랜드 고유 값만 남깁니다.
+
+#### 2c. 브랜드 이미지 자산 다운로드 — 로고·og:image 원본이 필요할 때
+
+스크린샷(2a)이 "어떻게 보이는가"를 담는다면, 이 스크립트는 **원본 자산 파일**을 가져옵니다 — 로고 SVG, og:image, 제품 스크린샷 원본. 로고 형태나 이미지 스타일을 확대해 봐야 할 때 씁니다.
+
+```bash
+"$SCRIPTS/fetch_site_assets.sh" "research-memory/assets/[company]" "[competitor-url]" 25
 ```
 
-#### 2d. Additional Pages
+- 인자: `<출력 디렉터리> <페이지 URL> [최대 이미지 수, 기본 25]`
+- 결과: `01-og.webp`, `02-icon.svg`, `08-logo.svg` … + `manifest.tsv`
+- 파일명의 role 접두어로 자산 성격을 구분합니다:
+  | role | 의미 | 분석에서의 쓸모 |
+  |------|------|----------------|
+  | `og` | og:image / twitter:image | **가장 중요** — 브랜드가 공유 시 보여주고 싶은 대표 비주얼 |
+  | `logo` | alt·class에 logo/brand | 로고 마크, 고객사 로고 |
+  | `icon` | favicon / apple-touch-icon | 브랜드 마크의 최소 단위 |
+  | `img` | 본문 이미지 | 히어로·제품 스크린샷·일러스트 |
+  | `css-bg` | CSS background url() | 배경 텍스처·그라디언트 이미지 |
+- `manifest.tsv`에 파일명·출처 URL·role·크기가 기록되므로, **어떤 이미지가 어디서 왔는지** 추적할 수 있습니다.
+- 이 스크립트는 JS를 실행하지 않습니다. 자산이 0건이면 SPA일 가능성이 크지만, **2a의 스크린샷은 정상일 수 있습니다** (헤드리스 Chrome은 JS를 실행하므로).
 
-If capture scope includes features/pricing:
+#### 2d. Claude Browser — 스크립트가 못 하는 것
+
+모바일 뷰, 쿠키 배너가 가린 히어로, 탭 전환 — 스크립트가 못 하는 것만 여기서 처리합니다.
+
+**모바일 뷰** (진짜 디바이스 emulation — Android UA + 터치 + viewport meta 적용):
 ```
-browser_navigate → [features URL]
-browser_wait_for → time: 3
-browser_take_screenshot → filename: "screenshots/[company]-features.png"
+mcp__Claude_Browser__navigate       → url: [competitor-url]
+mcp__Claude_Browser__resize_window  → preset: "mobile"
+mcp__Claude_Browser__navigate       → url: [competitor-url]   (재로드 — 로드 시점 분기가 다시 돌게)
+mcp__Claude_Browser__computer       → action: "screenshot"
+mcp__Claude_Browser__resize_window  → preset: "desktop"       (원상 복구 — 반드시)
 ```
 
-Repeat for pricing page if applicable.
+**쿠키 배너가 히어로를 가릴 때**:
+```
+mcp__Claude_Browser__find      → query: "Reject" 또는 "Decline"
+mcp__Claude_Browser__computer  → action: "left_click", ref: [찾은 ref]
+mcp__Claude_Browser__computer  → action: "screenshot"
+```
+> 개인정보 보호 원칙상 **비필수 쿠키는 거부**를 선택합니다. 거부 버튼이 없을 때만 닫기/수락을 씁니다.
 
-**Error handling**: If a site blocks access, times out, or triggers CAPTCHA → skip that competitor, note it in the analysis, and move to the next.
+**적용된 색·폰트가 정확히 필요할 때** (소스 CSS가 아니라 computed 값):
+```
+mcp__Claude_Browser__javascript_tool → action: "javascript_exec", text:
+  (() => {
+    const b = getComputedStyle(document.body);
+    const hero = document.querySelector('[class*="hero"], header, .banner, main > section:first-child');
+    const hs = hero ? getComputedStyle(hero) : {};
+    const cta = document.querySelector('a[class*="btn"], button[class*="btn"], .cta, [class*="cta"]');
+    const cs = cta ? getComputedStyle(cta) : {};
+    const heads = ['h1','h2','h3'].map(t => {
+      const el = document.querySelector(t); if (!el) return null;
+      const s = getComputedStyle(el);
+      return { tag: t, font: s.fontFamily, size: s.fontSize, weight: s.fontWeight };
+    }).filter(Boolean);
+    return { bodyBg: b.backgroundColor, bodyColor: b.color, bodyFont: b.fontFamily,
+             heroBg: hs.backgroundColor || 'N/A',
+             ctaBg: cs.backgroundColor || 'N/A', ctaColor: cs.color || 'N/A',
+             headings: heads };
+  })()
+```
 
-**Save all screenshots** to `research-skills/screenshots/[company-name]/` (create subdirectory per competitor).
+> **주의**: Claude Browser 스크린샷은 분석용으로 화면에 오지만 **디스크에 파일로 저장되지 않습니다.** 보관해야 할 캡처는 2a의 스크립트로 남기세요.
+
+#### 2e. 추가 페이지
+
+features/pricing 페이지도 범위에 있으면 같은 URL로 2a·2b를 반복합니다 (출력 디렉터리는 `assets/[company]/pricing` 등으로 분리).
+
+#### 오류 처리
+
+| 증상 | 원인 | 대응 |
+|------|------|------|
+| 스크린샷이 빈 화면 | 봇 차단 또는 로딩 지연 | `full_height`를 낮춰 재시도 → 안 되면 2d Claude Browser |
+| `exit 3` / 자산 0개 | JS 렌더링 SPA (`fetch_site_assets.sh`는 JS 미실행) | 스크린샷은 정상일 수 있음. 자산이 필요하면 2d |
+| `FAIL page http=403` | 봇 차단 | 2d Claude Browser로 재시도 → 그래도 막히면 skip + "access restricted" 기록 |
+| 색 팔레트가 비었음 | CSS가 JS로 주입됨 | 2d의 `javascript_tool` computed style 경로 사용 |
+| CAPTCHA | — | **우회하지 않습니다.** 해당 경쟁사는 skip하고 분석에 명시 |
+
+**모든 산출물 저장 위치**: `research-memory/assets/[company-name]/` (경쟁사별 하위 디렉터리)
 
 ---
 
@@ -258,29 +336,46 @@ Append design-relevant gaps (do NOT delete existing rows):
 Append one row:
 
 ```
-| [YYYY-MM-DD] | competitor-visual | Full Audit / Refresh / Single | [# competitors captured, key visual findings] | Playwright |
+| [YYYY-MM-DD] | competitor-visual | Full Audit / Refresh / Single | [# competitors captured, key visual findings] | capture_screenshots.sh + Claude Browser |
 ```
 
 ---
 
-## Playwright Tool Reference
+## Tool Reference
+
+외부 MCP(Playwright 등) 없이 **번들 스크립트 + 내장 도구**로 동작합니다.
+
+### 번들 스크립트 (`scripts/`) — 주 경로
+
+| Script | 하는 일 | 출력 |
+|--------|---------|------|
+| `capture_screenshots.sh <out_dir> <url> [company] [h]` | **랜딩페이지 스크린샷** — 헤드리스 Chrome, hero + full | `[company]-hero.png`, `[company]-full.png` |
+| `fetch_site_assets.sh <out_dir> <url> [max]` | 페이지에서 og:image·로고·이미지·CSS 배경을 찾아 내려받고 MIME 검증 | 번호순 이미지 파일 + `manifest.tsv` |
+| `extract_design_tokens.sh <out_dir> <url>` | HTML + 링크된 CSS를 모아 색·폰트 토큰 추출 | `design-tokens.txt` |
+| `extract_image_urls.py <url> <html>` | (내부 헬퍼) HTML → 이미지 URL 목록 | stdout `role<TAB>url` |
+| `extract_css_links.py <url> <html> [max]` | (내부 헬퍼) HTML → 스타일시트 URL, 서드파티 제외 | stdout URL 목록 |
+| `extract_design_tokens.py <css_bundle>` | (내부 헬퍼) CSS 텍스트 → 팔레트·폰트 리포트 | stdout 리포트 |
+
+스크립트를 먼저 쓰는 이유: 빠르고, 실제 파일이 디스크에 남아 나중에 다시 볼 수 있고, 경쟁사 5-8개에 반복하기 쉽습니다.
+
+### Claude Browser (`mcp__Claude_Browser__*`) — 보조 경로
 
 | Tool | Purpose | When |
 |------|---------|------|
-| `browser_navigate` | Go to URL | Every competitor site |
-| `browser_take_screenshot` | Capture viewport or full page | Hero, features, pricing, mobile |
-| `browser_snapshot` | Get accessibility tree | Find dismiss buttons, understand structure |
-| `browser_resize` | Change viewport size | Desktop (1280×800) ↔ Mobile (390×844) |
-| `browser_evaluate` | Run JavaScript | Extract colors, fonts via getComputedStyle |
-| `browser_click` | Click elements | Dismiss cookie banners, navigate tabs |
-| `browser_wait_for` | Wait for content | Allow pages to fully render |
+| `navigate` | URL 이동 | 렌더링 화면이 필요할 때 |
+| `computer` (`action: "screenshot"`) | 화면 캡처 | 히어로·레이아웃 육안 확인 |
+| `resize_window` | 뷰포트 변경 (`preset: "mobile"` / `"desktop"`) | 반응형 확인 |
+| `javascript_tool` | getComputedStyle 실행 | **적용된** 색·폰트가 필요할 때 |
+| `find` + `computer(left_click)` | 요소 탐색·클릭 | 쿠키 배너 처리, 탭 전환 |
+| `get_page_text` | 렌더링된 텍스트 추출 | SPA에서 스크립트가 빈 결과일 때 |
 
 **Tips**:
-- Always wait 2-3 seconds after navigation for content to load
-- Cookie banners: use `browser_snapshot` to find the dismiss button, then `browser_click`
-- If a site blocks or CAPTCHAs → skip and note in analysis
-- Save screenshots with descriptive names: `[company]-hero.png`, `[company]-mobile.png`
-- Reset viewport to 1280×800 after mobile captures
+- **스크립트 → 브라우저** 순서를 지키세요. 브라우저부터 열면 느리고 자산 파일이 안 남습니다.
+- 내려받은 이미지는 `Read`로 직접 열어 보세요. 파일 목록만 보고 디자인을 논하지 않습니다.
+- 소스 CSS 팔레트(`design-tokens.txt`)와 computed style은 다를 수 있습니다. 충돌하면 computed 값이 맞습니다.
+- 모바일 캡처 후 `preset: "desktop"`으로 **반드시** 되돌립니다.
+- 쿠키 배너는 **비필수 거부**를 우선 선택합니다.
+- CAPTCHA·봇 차단은 **우회하지 않습니다.** skip하고 분석에 명시합니다.
 
 ---
 
@@ -288,21 +383,23 @@ Append one row:
 
 Before saving, verify:
 
-- [ ] Every competitor in the Competitive Set has at least a hero screenshot
-- [ ] CSS-extracted colors include HEX values (not just rgb strings — convert if needed)
+- [ ] Competitive Set의 모든 경쟁사에 대해 **hero 스크린샷**이 캡처됐다
+- [ ] 캡처한 스크린샷을 `Read`로 실제로 열어서 봤다 (파일 목록만 보고 판단하지 않았다)
+- [ ] 색상은 HEX로 기록했다 (`design-tokens.txt` 또는 computed style 기준). 근거 출처(스크립트/브라우저)를 함께 적었다
 - [ ] Typography documents both heading and body fonts
 - [ ] Visual Comparison Matrix covers all analyzed competitors
 - [ ] "Design Trends Across Competitors" section identifies at least 1 shared pattern and 1 opportunity
 - [ ] Existing `[competitor-finder]` and `[competitor-analyzer]` sections are untouched
-- [ ] Screenshots saved to `research-skills/screenshots/[company]/`
+- [ ] 스크린샷·자산이 `research-memory/assets/[company]/`에 저장됐다
+- [ ] 모바일 반응형을 언급했다면 Claude Browser로 실제 확인한 결과다 (스크립트 캡처는 모바일 불가)
 - [ ] `research-log.md` updated with execution record
 
 ---
 
 ## What This Skill Does NOT Do
 
-- **Text/messaging analysis** → Use `competitor-analyzer` (Firecrawl)
-- **Competitor discovery** → Use `competitor-finder` (Perplexity)
+- **Text/messaging analysis** → Use `competitor-analyzer` (`WebFetch`)
+- **Competitor discovery** → Use `competitor-finder` (`WebSearch`)
 - **Brand voice definition** → Use `brand-voice` (marketing skill)
 - **Design system generation** → Out of scope. This skill observes, not creates
 

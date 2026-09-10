@@ -30,11 +30,11 @@ Tag every `[competitor-finder]` section. Leave `[competitor-analyzer]` and `[com
 
 ## Website Messaging Detail
 > [competitor-analyzer] — to be filled by competitor-analyzer skill
-<!-- Populated by competitor-analyzer (Firecrawl): headlines, CTAs, social proof, pricing page detail -->
+<!-- Populated by competitor-analyzer (WebFetch): headlines, CTAs, social proof, pricing page detail -->
 
 ## Design Patterns & Visual Audit
 > [competitor-visual] — to be filled by competitor-visual skill
-<!-- Populated by competitor-visual (Playwright): screenshots, color palettes, layout, visual tone -->
+<!-- Populated by competitor-visual (asset download + Claude Browser): screenshots, color palettes, layout, visual tone -->
 
 ## Channel Activity Matrix
 > [competitor-finder]
@@ -69,5 +69,5 @@ Tag every `[competitor-finder]` section. Leave `[competitor-analyzer]` and `[com
 ## research-log.md Entry Format
 
 ```
-| [YYYY-MM-DD] | competitor-finder | Full Discovery / Refresh | [X direct + Y indirect competitors identified, key gaps] | Perplexity |
+| [YYYY-MM-DD] | competitor-finder | Full Discovery / Refresh | [X direct + Y indirect competitors identified, key gaps] | WebSearch + WebFetch |
 ```

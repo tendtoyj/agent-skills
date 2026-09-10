@@ -7,7 +7,7 @@ user-invocable: true
 # Audience Profiler
 
 > Profile your target audience — segments, buying journey, pain points, and media habits.
-> Uses Perplexity for deep customer research. Output feeds voice-of-customer, copy, email, and every execution skill.
+> Uses `WebSearch` + `WebFetch` for deep customer research — no external MCP required. Output feeds voice-of-customer, copy, email, and every execution skill.
 
 ---
 
@@ -78,11 +78,11 @@ Collect from the user conversationally. Do NOT dump a form — ask naturally.
 
 사용자가 명시적으로 요청하면 리서치 깊이를 조절합니다. 지정하지 않으면 `deep` (기본값).
 
-| Level | search_context_size | 수집량 | 용도 |
-|-------|--------------------|----|------|
-| `light` | low | 축소 (~50%) | 빠른 감 잡기 |
-| `standard` | medium | 보통 (~75%) | 일반 리서치 |
-| `deep` | high | 전체 (100%) | 본격 리서치 |
+| Level | WebSearch 횟수 | WebFetch 정독 | 수집량 | 용도 |
+|-------|--------------|--------------|----|------|
+| `light` | Step당 1-2회 | 0-1건 | 축소 (~50%) | 빠른 감 잡기 |
+| `standard` | Step당 3-4회 | 2-3건 | 보통 (~75%) | 일반 리서치 |
+| `deep` | Step당 5-6회 | 4-6건 | 전체 (100%) | 본격 리서치 |
 
 > "가볍게", "빠르게", "간단히" → light / "보통으로", "적당히" → standard / 별도 지정 없음 → deep
 
@@ -94,7 +94,7 @@ Collect from the user conversationally. Do NOT dump a form — ask naturally.
 
 **Goal**: Identify 2-4 distinct buyer segments and prioritize them.
 
-**Tool**: `perplexity_reason` (requires analytical reasoning for prioritization)
+**Tool**: `WebSearch` → `WebFetch` → 직접 추론 (requires analytical reasoning for prioritization)
 
 **Query pattern**:
 ```
@@ -113,7 +113,7 @@ Base this on real market data, not hypothetical archetypes.
 ```
 
 **Parameters**:
-- `search_context_size`: Research Intensity에 따라 결정 (light→"low" / standard→"medium" / deep→"high")
+- **검색 깊이**: Research Intensity에 따라 결정 (light→WebSearch 1-2회 / standard→WebSearch 3-4회 + 상위 출처 2건 WebFetch / deep→WebSearch 5-6회 + 상위 출처 4-5건 WebFetch)
 
 **If market-landscape.md loaded**: Append to query — "The market structure shows these customer dimensions: [paste By Customer Segment section]. Build on this foundation."
 
@@ -125,7 +125,7 @@ Base this on real market data, not hypothetical archetypes.
 
 **Goal**: Map the complete buying journey for the #1 priority segment across 4 stages.
 
-**Tool**: `perplexity_reason` (requires journey reasoning)
+**Tool**: `WebSearch` → `WebFetch` → 직접 추론 (requires journey reasoning)
 
 **Query pattern**:
 ```
@@ -161,7 +161,7 @@ Cite real examples or data where possible.
 ```
 
 **Parameters**:
-- `search_context_size`: Research Intensity에 따라 결정 (light→"low" / standard→"medium" / deep→"high")
+- **검색 깊이**: Research Intensity에 따라 결정 (light→WebSearch 1-2회 / standard→WebSearch 3-4회 + 상위 출처 2건 WebFetch / deep→WebSearch 5-6회 + 상위 출처 4-5건 WebFetch)
 
 **Output**: 4-stage journey map with triggers, touchpoints, barriers, and timelines for each stage.
 
@@ -171,7 +171,7 @@ Cite real examples or data where possible.
 
 **Goal**: Catalog pain points across all segments, classified by type and severity.
 
-**Tool**: `perplexity_ask` (fact-based collection from communities and reviews)
+**Tool**: `WebSearch` → `WebFetch` (fact-based collection from communities and reviews)
 
 **Query pattern**:
 ```
@@ -193,8 +193,8 @@ Also identify UNMET NEEDS — gaps that no current solution adequately addresses
 ```
 
 **Parameters**:
-- `search_recency_filter`: "year"
-- `search_context_size`: Research Intensity에 따라 결정 (light→"low" / standard→"medium" / deep→"high")
+- **최신성**: 쿼리에 연도를 명시합니다 (예: "... 2026"). 검색 결과의 게시일을 확인해 1년 이상 지난 자료는 배제하거나 본문에 "as of [연도]"로 표기합니다.
+- **검색 깊이**: Research Intensity에 따라 결정 (light→WebSearch 1-2회 / standard→WebSearch 3-4회 + 상위 출처 2건 WebFetch / deep→WebSearch 5-6회 + 상위 출처 4-5건 WebFetch)
 
 > light일 경우 severity High인 pain point 위주로 수집합니다.
 
@@ -208,7 +208,7 @@ Also identify UNMET NEEDS — gaps that no current solution adequately addresses
 
 **Goal**: Map where the primary segment spends time and attention online.
 
-**Tool**: `perplexity_ask` (current data on media habits)
+**Tool**: `WebSearch` → `WebFetch` (current data on media habits)
 
 **Query pattern**:
 ```
@@ -230,8 +230,8 @@ Cite any available research, surveys, or data on this audience's media habits.
 ```
 
 **Parameters**:
-- `search_recency_filter`: "month"
-- `search_context_size`: Research Intensity에 따라 결정 (light→"low" / standard→"medium" / deep→"high")
+- **최신성**: 쿼리에 연도 + "latest" / "recent"를 넣습니다 (예: "... 2026 latest"). 검색 결과의 게시일을 확인해 최근 3개월 밖 자료는 배제합니다.
+- **검색 깊이**: Research Intensity에 따라 결정 (light→WebSearch 1-2회 / standard→WebSearch 3-4회 + 상위 출처 2건 WebFetch / deep→WebSearch 5-6회 + 상위 출처 4-5건 WebFetch)
 
 **Output**: 5-dimension attention map with specific platform/community/influencer names.
 
@@ -343,22 +343,32 @@ Use the exact schema below. Fill every section with Step 1-4 findings.
 Append one row to the log:
 
 ```
-| [YYYY-MM-DD] | audience-profiler | Full Profile / Refresh | [brief summary of key findings or changes] | Perplexity |
+| [YYYY-MM-DD] | audience-profiler | Full Profile / Refresh | [brief summary of key findings or changes] | WebSearch + WebFetch |
 ```
 
 ---
 
-## Perplexity MCP Tool Guide
+## Web Research Tool Guide
+
+이 스킬은 외부 MCP(Perplexity 등) 없이 **내장 도구만으로** 동작합니다.
 
 | Tool | When to Use | This Skill |
 |------|-------------|------------|
-| `perplexity_reason` | Analytical reasoning, prioritization | Step 1 (segment definition + ranking), Step 2 (journey mapping) |
-| `perplexity_ask` | Factual Q&A, current data | Step 3 (pain points), Step 4 (media consumption) |
-| `perplexity_search` | Find specific URLs/reports | Only if Steps 1-4 need survey/report source verification |
+| `WebSearch` | 커뮤니티·리뷰·설문 출처 발견 | 모든 Step의 1차 수집 |
+| `WebFetch` | 찾은 스레드/리뷰/리포트를 정독해 실제 표현 추출 | Step 3 (pain points), Step 4 (media) |
+| 직접 추론 | 세그먼트 정의·우선순위·저니 매핑 (`perplexity_reason` 대체) | Step 1, Step 2 |
 
-**Common parameters**:
-- `search_context_size`: Research Intensity 레벨에 따라 결정 — 위 Research Intensity 테이블 참조
-- `search_recency_filter`: `"month"` for media habits (Step 4), `"year"` for pain points (Step 3)
+> **Perplexity와의 차이 — 반드시 지킬 것**: `WebSearch`는 출처를 자동으로 인용해주지 않고, 결과는 제목+URL+짧은 스니펫뿐입니다.
+> 1. 스니펫만 보고 수치·인용을 쓰지 마세요. 반드시 `WebFetch`로 원문을 열어 확인한 뒤 씁니다.
+> 2. 모든 수치와 주장 옆에 출처 URL을 직접 적습니다.
+> 3. 원문을 확인하지 못한 항목은 `[미확인]`으로 표시하고, 추정치로 채우지 않습니다.
+> 4. 도메인을 좁히려면 `WebSearch`의 `allowed_domains` / `blocked_domains`를 씁니다.
+> 5. `WebSearch`는 US 기준입니다. 한국 시장 조사 시 한국어 쿼리를 별도로 한 번 더 돌리세요.
+
+**Depth & recency**:
+- 검색 깊이: Research Intensity 레벨에 따라 결정 — 위 Research Intensity 테이블 참조
+- 최신성: 미디어 습관(Step 4)은 "2026 latest", pain point(Step 3)는 "2025 2026"을 쿼리에 명시
+- 커뮤니티 직격 검색: `site:reddit.com`, `site:news.ycombinator.com`, `site:g2.com`, `site:capterra.com`를 쿼리에 붙이면 실제 사용자 언어에 바로 닿습니다
 
 **Query best practices**:
 - Be specific: Include the exact segment description in every query
@@ -381,7 +391,7 @@ Before saving, verify:
 - [ ] Each pain point has severity AND frequency tags
 - [ ] Unmet needs section identifies genuine market gaps
 - [ ] Media map names SPECIFIC platforms, communities, and influencers (not generic)
-- [ ] All Perplexity responses include source citations
+- [ ] 모든 수치·주장에 출처 URL이 붙어 있다 (WebSearch는 자동 인용을 해주지 않으므로 직접 기재)
 - [ ] research-log.md updated with execution record
 
 ---

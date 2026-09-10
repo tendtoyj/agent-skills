@@ -1,12 +1,14 @@
-# Firecrawl Scraping Schemas — Competitor Analyzer
+# Extraction Schemas — Competitor Analyzer
 
-Reference schemas for `firecrawl_scrape` JSON extraction. Used in Steps 2 and 3 of the competitor-analyzer skill.
+`WebFetch`의 `prompt`에 넣어 쓰는 추출 스키마입니다. competitor-analyzer 스킬의 Step 2, 3에서 사용합니다.
+
+> **사용법**: 아래 스키마를 그대로 `WebFetch`의 `prompt` 안에 붙여넣고, 앞에 `"아래 JSON 형식으로만 답하세요. 페이지에 없는 항목은 null, 목록이 비면 []. 절대 추측하지 마세요. 문구는 원문 그대로 옮기세요."`를 덧붙입니다. `WebFetch`는 스키마를 강제하지 않으므로 결과 검증은 직접 해야 합니다.
 
 ---
 
 ## Homepage Messaging Schema
 
-Use this schema with `firecrawl_scrape` to extract messaging elements from competitor homepages.
+이 스키마를 `WebFetch` 프롬프트에 넣어 경쟁사 홈페이지의 메시징 요소를 추출합니다.
 
 ```json
 {
@@ -63,7 +65,7 @@ Use this schema with `firecrawl_scrape` to extract messaging elements from compe
 
 ## Pricing Page Schema
 
-Use this schema with `firecrawl_scrape` to extract pricing structure from competitor pricing pages.
+이 스키마를 `WebFetch` 프롬프트에 넣어 경쟁사 가격 페이지의 가격 구조를 추출합니다.
 
 ```json
 {
@@ -136,7 +138,7 @@ Then manually extract the messaging elements from the markdown output.
 
 ---
 
-## URL Discovery with firecrawl_map
+## URL Discovery without a crawler
 
 When the pricing page URL isn't obvious:
 

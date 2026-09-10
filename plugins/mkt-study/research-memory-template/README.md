@@ -50,11 +50,11 @@ Some files are built by multiple skills in sequence:
 
 ```
 competitive-intel.md:
-  competitor-finder (Perplexity) → base structure: competitive set, positioning, channels
+  competitor-finder (WebSearch) → base structure: competitive set, positioning, channels
         ↓
-  competitor-analyzer (Firecrawl) → enrichment: website messaging, pricing, CTAs, copy
+  competitor-analyzer (WebFetch) → enrichment: website messaging, pricing, CTAs, copy
         ↓
-  competitor-visual (Playwright) → enrichment: design patterns, screenshots, visual tone
+  competitor-visual (asset scripts) → enrichment: design patterns, screenshots, visual tone
 
 strategy-brief.md:
   research-synthesizer → base structure: cross-analysis, recommendations
